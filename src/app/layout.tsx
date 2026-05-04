@@ -32,7 +32,7 @@ export default function RootLayout({
       <body className='flex min-h-full flex-col'>
         <SidebarProvider>
           <AppSidebar />
-          <main className='flex-1'>
+          <main className='flex flex-1 flex-col'>
             <div className='p-3'>
               <SidebarTrigger />
             </div>
