@@ -47,6 +47,8 @@ export default function DashboardArea({ companies }: Props) {
     selectYear,
   });
   const isEmpty = monthlyEmissions === null || yearlyEmissions === null;
+  const currentYear = new Date().getFullYear();
+  const selectYearList = Array.from({ length: 11 }, (_, i) => currentYear - i);
 
   return (
     <div className='flex flex-col gap-5 p-5'>
@@ -59,9 +61,11 @@ export default function DashboardArea({ companies }: Props) {
             onChange={(e) => setSelectYear(e.target.value)}
             className='h-10 rounded-sm border px-5'
           >
-            <option value='2023'>2023</option>
-            <option value='2024'>2024</option>
-            <option value='2025'>2025</option>
+            {selectYearList.map((year) => (
+              <option value={year} key={year}>
+                {year}
+              </option>
+            ))}
           </select>
         </div>
         {/* 회사 필터링 */}
