@@ -19,9 +19,11 @@ export async function fetchCompanies() {
   return _companies;
 }
 
-export async function fetchPosts() {
+export async function fetchPosts(id: string): Promise<Post | undefined>;
+export async function fetchPosts(id?: undefined): Promise<Post[]>;
+export async function fetchPosts(id?: string) {
   await delay(jitter());
-  return _posts;
+  return id ? _posts.find((post) => post.id === id) : _posts;
 }
 
 export async function createOrUpdatePost(
