@@ -5,6 +5,7 @@ import { SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import AppSidebar from '@/components/layout/AppSidebar';
 import { PostProvider } from '@/components/providers/PostsStoreProvider';
 import { fetchPosts } from '@/lib/api';
+import { Toaster } from '@/components/ui/sonner';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -45,6 +46,7 @@ export default async function RootLayout({
             </PostProvider>
           </main>
         </SidebarProvider>
+        <Toaster />
       </body>
     </html>
   );
