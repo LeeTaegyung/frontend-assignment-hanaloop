@@ -1,16 +1,18 @@
 'use client';
 
+import { usePostsStore } from '@/components/providers/PostsStoreProvider';
 import { Button } from '@/components/ui/button';
 import { useCompaniesStore } from '@/store/companiesStore';
-import { Post } from '@/types';
 import { useRouter } from 'next/navigation';
 
 interface Props {
-  post: Post | undefined;
+  id: string;
 }
 
-export default function PostDetailArea({ post }: Props) {
+export default function PostDetailArea({ id }: Props) {
   const router = useRouter();
+  const getPostById = usePostsStore((state) => state.getPostById);
+  const post = getPostById(id);
   const getCompanyById = useCompaniesStore((store) => store.getCompanyById);
 
   if (post === undefined)

@@ -1,5 +1,4 @@
 import PostDetailArea from '@/components/post/PostDetailArea';
-import { fetchPosts } from '@/lib/api';
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -7,7 +6,6 @@ interface Props {
 
 export default async function PostDetailPage({ params }: Props) {
   const { id } = await params;
-  const post = await fetchPosts(id);
 
-  return <PostDetailArea post={post} />;
+  return <PostDetailArea id={id} />;
 }
