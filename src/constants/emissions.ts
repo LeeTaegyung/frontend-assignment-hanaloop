@@ -1,5 +1,11 @@
 export const GHG_UNIT = 'kgCO₂e';
 
+export const SCOPE_COLORS: Record<string, string> = {
+  '1': '#8884d8',
+  '2': '#82ca9d',
+  '3': '#d88484',
+};
+
 export const EMISSION_FACTORS: Record<
   string,
   Record<string, { scope: string; value: number; unit: string }[]>
