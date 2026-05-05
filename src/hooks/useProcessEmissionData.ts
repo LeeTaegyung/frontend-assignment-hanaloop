@@ -30,10 +30,17 @@ export const useProcessEmissionData = ({ emissions, selectYear }: Props) => {
       total: 0,
     };
 
-    emissions.forEach((emission) => {
+    const filterEmissions = emissions.filter((emission) => {
+      const targetYear = emission.yearMonth.split('-')[0];
+      return targetYear === selectYear;
+    });
+
+    if (filterEmissions.length === 0)
+      return { monthlyEmissions: null, yearlyEmissions: null };
+
+    filterEmissions.forEach((emission) => {
       // 년도 필터링
-      const [targetYear, targetMonth] = emission.yearMonth.split('-');
-      if (targetYear !== selectYear) return;
+      const targetMonth = emission.yearMonth.split('-')[1];
 
       // 활동 데이터 정보
       const [parentSource, childrenSource] = emission.source.split('-');

@@ -43,18 +43,8 @@ export default function YearlyPieChart({ yearlyEmissions }: Props) {
     .sort((a, b) => Number(a.scope) - Number(b.scope))
     .map((data) => ({ ...data, fill: SCOPE_COLORS[data.scope] }));
 
-  console.log(yearlyEmissions);
-
   return (
-    <PieChart
-      style={{
-        width: '100%',
-        height: '100%',
-        maxHeight: '80vh',
-        aspectRatio: 1,
-      }}
-      responsive
-    >
+    <PieChart className='aspect-1 h-full max-h-[80vh] w-full' responsive>
       <Pie
         data={scopeData}
         dataKey='value'

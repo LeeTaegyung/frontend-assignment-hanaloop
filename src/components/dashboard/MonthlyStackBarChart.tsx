@@ -1,5 +1,5 @@
 import { GHG_UNIT, SCOPE_COLORS } from '@/constants/emissions';
-import { MonthlyEmissionDataType, ScopeEmissionsDataType } from '@/types';
+import { MonthlyEmissionDataType } from '@/types';
 import { ValueOf } from 'next/dist/shared/lib/constants';
 import {
   Bar,
@@ -39,7 +39,7 @@ const CustomTooltip = ({ active, payload }: TooltipContentProps) => {
                 const unit = `${GHG_UNIT}/${scopeData.unit}`;
 
                 return (
-                  <p key={scopeData?.scope} className='py-0.5'>
+                  <div key={scopeData?.scope} className='py-0.5'>
                     <div className='flex items-center gap-1'>
                       <span
                         className='mt-1 block h-2 w-2 rounded-full'
@@ -50,7 +50,7 @@ const CustomTooltip = ({ active, payload }: TooltipContentProps) => {
                       <span style={{ color: payload[i].color }}>{scope}</span>
                     </div>
                     {value} {unit}
-                  </p>
+                  </div>
                 );
               })}
           <p className='text-primary mt-1 text-sm font-medium'>{`total: ${data.total.toLocaleString()} ${GHG_UNIT}`}</p>

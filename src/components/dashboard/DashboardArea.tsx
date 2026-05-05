@@ -4,7 +4,7 @@ import MonthlyStackBarChart from '@/components/dashboard/MonthlyStackBarChart';
 import YearlyPieChart from '@/components/dashboard/YearlyPieChart';
 import { useProcessEmissionData } from '@/hooks/useProcessEmissionData';
 import { Company } from '@/types';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 interface Props {
   companies: Company[];
@@ -28,19 +28,25 @@ const getLatestYearMonth = (companies: Company[]) => {
 };
 
 export default function DashboardArea({ companies }: Props) {
-  const latestYearMonth = getLatestYearMonth(companies);
   // 초기 데이터 기준 최신년월 => 초기값으로 사용
-  const [selectYear, setSelectYear] = useState(latestYearMonth.year);
+  const [selectYear, setSelectYear] = useState(
+    () => getLatestYearMonth(companies).year
+  );
   const [filterCompany, setFilterCompany] = useState('all');
   // 회사필터링 적용
-  const emissions = companies.flatMap((company) => {
-    if (filterCompany === 'all') return company.emissions;
-    return company.id === filterCompany ? company.emissions : [];
-  });
+  const emissions = useMemo(
+    () =>
+      companies.flatMap((company) => {
+        if (filterCompany === 'all') return company.emissions;
+        return company.id === filterCompany ? company.emissions : [];
+      }),
+    [companies, filterCompany]
+  );
   const { monthlyEmissions, yearlyEmissions } = useProcessEmissionData({
     emissions,
     selectYear,
   });
+  const isEmpty = monthlyEmissions === null || yearlyEmissions === null;
 
   return (
     <div className='flex flex-col gap-5 p-5'>
@@ -75,8 +81,8 @@ export default function DashboardArea({ companies }: Props) {
           </select>
         </div>
       </div>
-      {emissions.length === 0 ? (
-        <div className='flex-1 items-center justify-center p-5'>
+      {isEmpty ? (
+        <div className='flex flex-1 items-center justify-center py-20'>
           데이터가 없습니다.
         </div>
       ) : (
