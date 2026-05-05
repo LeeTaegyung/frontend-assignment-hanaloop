@@ -45,7 +45,7 @@ const CustomTooltip = ({ active, payload }: TooltipContentProps) => {
                         backgroundColor: payload[i].color,
                       }}
                     />
-                    {`scope${scopeData?.scope} : ${scopeData !== null ? scopeData.value.toLocaleString() : 0} ${GHG_UNIT}/${scopeData.unit}`}
+                    {`scope${scopeData?.scope} : ${scopeData !== null ? (Math.round(scopeData.value * 100) / 100).toLocaleString() : 0} ${GHG_UNIT}/${scopeData.unit}`}
                   </p>
                 );
               })}
