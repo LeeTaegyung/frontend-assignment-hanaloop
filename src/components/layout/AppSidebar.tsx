@@ -9,11 +9,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { Home } from 'lucide-react';
+import { File, Home } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const LINK_MAP = [{ name: '대시보드', href: '/', icon: Home }];
+const LINK_MAP = [
+  { name: '대시보드', href: '/', icon: Home },
+  { name: '리포트', href: '/post', icon: File },
+];
 
 export default function AppSidebar() {
   const path = usePathname();
@@ -28,7 +31,9 @@ export default function AppSidebar() {
           <SidebarMenu>
             {LINK_MAP.map((link) => {
               const isActive =
-                path === '/' ? path === link.href : path.includes(link.href);
+                link.href === '/'
+                  ? path === link.href
+                  : path.includes(link.href);
 
               return (
                 <SidebarMenuItem key={link.name}>
