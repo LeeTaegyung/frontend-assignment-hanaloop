@@ -3,9 +3,10 @@
 import MonthlyStackBarChart from '@/components/dashboard/MonthlyStackBarChart';
 import YearlyPieChart from '@/components/dashboard/YearlyPieChart';
 import { useProcessEmissionData } from '@/hooks/useProcessEmissionData';
+import { useCompaniesStore } from '@/store/companiesStore';
 import { Company, Post } from '@/types';
 import Link from 'next/link';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 interface Props {
   companies: Company[];
@@ -30,6 +31,7 @@ const getLatestYearMonth = (companies: Company[]) => {
 };
 
 export default function DashboardArea({ companies, posts }: Props) {
+  const setCompanies = useCompaniesStore((stroe) => stroe.setCompanies);
   // 초기 데이터 기준 최신년월 => 초기값으로 사용
   const [selectYear, setSelectYear] = useState(
     () => getLatestYearMonth(companies).year
@@ -51,6 +53,11 @@ export default function DashboardArea({ companies, posts }: Props) {
   const isEmpty = monthlyEmissions === null || yearlyEmissions === null;
   const currentYear = new Date().getFullYear();
   const selectYearList = Array.from({ length: 11 }, (_, i) => currentYear - i);
+
+  useEffect(() => {
+    // 다른 컴포넌트에서 회사정보를 꺼내오기 위해 zustand set
+    setCompanies(companies);
+  }, [companies, setCompanies]);
 
   return (
     <div className='flex flex-col gap-5'>
