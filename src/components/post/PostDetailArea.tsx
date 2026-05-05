@@ -39,13 +39,25 @@ export default function PostDetailArea({ id }: Props) {
       </div>
 
       <div className='flex-1 whitespace-pre-line'>{post.content}</div>
-      <Button
-        onClick={() => router.back()}
-        className='mt-2 cursor-pointer'
-        size={'lg'}
-      >
-        뒤로가기
-      </Button>
+
+      <div className='flex gap-2'>
+        <Button
+          onClick={() => router.back()}
+          className='mt-2 flex-1 cursor-pointer'
+          size={'lg'}
+          variant={'outline'}
+        >
+          뒤로가기
+        </Button>
+
+        <Button
+          onClick={() => router.push(`/post/${id}/edit`)}
+          className='mt-2 flex-1 cursor-pointer'
+          size={'lg'}
+        >
+          수정하기
+        </Button>
+      </div>
     </div>
   );
 }
