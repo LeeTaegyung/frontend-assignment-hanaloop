@@ -116,31 +116,40 @@ export default function DashboardArea({ companies }: Props) {
       <hr />
       <div>
         <h2 className='mb-5 text-2xl font-bold'>최신 리포트</h2>
-        <ul>
-          {posts
-            .sort((a, b) => (a.dateTime > b.dateTime ? -1 : 1))
-            .slice(0, 5)
-            .map((post) => {
-              const company = companies.find(
-                (company) => company.id === post.resourceUid
-              )?.name;
+        {posts.length === 0 ? (
+          <div className='flex flex-1 items-center justify-center py-20'>
+            등록된 리포트가 없습니다.
+          </div>
+        ) : (
+          <ul>
+            {posts
+              .sort((a, b) => (a.dateTime > b.dateTime ? -1 : 1))
+              .slice(0, 5)
+              .map((post) => {
+                const company = companies.find(
+                  (company) => company.id === post.resourceUid
+                )?.name;
 
-              return (
-                <li key={post.id} className='border-b last-of-type:border-b-0'>
-                  <Link
-                    href={`/post/${post.id}`}
-                    className='hover:bg-muted block px-1 py-2'
+                return (
+                  <li
+                    key={post.id}
+                    className='border-b last-of-type:border-b-0'
                   >
-                    <p className='mb-0.5 text-lg'>{post.title}</p>
-                    <div className='text-muted-foreground flex gap-2 text-sm'>
-                      <span>{post.dateTime}</span>
-                      {!!company && <span>{company}</span>}
-                    </div>
-                  </Link>
-                </li>
-              );
-            })}
-        </ul>
+                    <Link
+                      href={`/post/${post.id}`}
+                      className='hover:bg-muted block px-1 py-2'
+                    >
+                      <p className='mb-0.5 text-lg'>{post.title}</p>
+                      <div className='text-muted-foreground flex gap-2 text-sm'>
+                        <span>{post.dateTime}</span>
+                        {!!company && <span>{company}</span>}
+                      </div>
+                    </Link>
+                  </li>
+                );
+              })}
+          </ul>
+        )}
       </div>
     </div>
   );
