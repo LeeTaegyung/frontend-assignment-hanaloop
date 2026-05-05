@@ -18,3 +18,21 @@ export type Post = {
   dateTime: string;
   content: string;
 };
+
+export interface ScopeEmissionsDataType {
+  [key: string]: { scope: string; value: number; unit: string };
+}
+
+export interface YearlyEmissionDataType {
+  year: string;
+  scopeData: ScopeEmissionsDataType | null;
+  total: number;
+}
+
+export interface MonthlyEmissionDataType {
+  [key: string]: {
+    month: string;
+    scopeData: ScopeEmissionsDataType | null;
+    total: number;
+  };
+}
