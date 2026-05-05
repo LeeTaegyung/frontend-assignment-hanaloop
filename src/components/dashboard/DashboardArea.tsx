@@ -53,7 +53,7 @@ export default function DashboardArea({ companies, posts }: Props) {
   const selectYearList = Array.from({ length: 11 }, (_, i) => currentYear - i);
 
   return (
-    <div className='flex flex-col gap-5 p-5'>
+    <div className='flex flex-col gap-5'>
       <div>
         <h2 className='mb-5 text-2xl font-bold'>탄소 배출 현황</h2>
         <div className='flex items-center gap-5 border-b border-dashed pb-5'>
