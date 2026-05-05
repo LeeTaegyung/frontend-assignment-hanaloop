@@ -64,8 +64,10 @@ export default function DashboardArea({ companies }: Props) {
   return (
     <div className='flex flex-col gap-5'>
       <div>
-        <h2 className='mb-5 text-2xl font-bold'>탄소 배출 현황</h2>
-        <div className='flex items-center gap-5 border-b border-dashed pb-5'>
+        <h2 className='mb-2 text-lg font-bold lg:mb-5 lg:text-2xl'>
+          탄소 배출 현황
+        </h2>
+        <div className='flex flex-col gap-2 border-b border-dashed pb-5 lg:flex-row lg:items-center lg:gap-5'>
           {/* 년도 필터링 */}
           <div className='flex items-center gap-2'>
             <span className='font-medium'>년도</span>
@@ -103,7 +105,7 @@ export default function DashboardArea({ companies }: Props) {
             데이터가 없습니다.
           </div>
         ) : (
-          <div className='flex gap-2'>
+          <div className='flex flex-col gap-2 lg:flex-row'>
             <div className='flex-1'>
               <YearlyPieChart yearlyEmissions={yearlyEmissions} />
             </div>
@@ -115,7 +117,9 @@ export default function DashboardArea({ companies }: Props) {
       </div>
       <hr />
       <div>
-        <h2 className='mb-5 text-2xl font-bold'>최신 리포트</h2>
+        <h2 className='mb-2 text-lg font-bold lg:mb-5 lg:text-2xl'>
+          최신 리포트
+        </h2>
         {posts.length === 0 ? (
           <div className='flex flex-1 items-center justify-center py-20'>
             등록된 리포트가 없습니다.

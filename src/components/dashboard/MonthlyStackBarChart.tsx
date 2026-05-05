@@ -1,4 +1,7 @@
+'use client';
+
 import { GHG_UNIT, SCOPE_COLORS } from '@/constants/emissions';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { MonthlyEmissionDataType } from '@/types';
 import { ValueOf } from 'next/dist/shared/lib/constants';
 import {
@@ -88,6 +91,7 @@ const RenderCustomLegend = (props: DefaultLegendContentProps) => {
 };
 
 export default function MonthlyStackBarChart({ initData }: Props) {
+  const isMobile = useIsMobile();
   const data = Object.values(initData).sort(
     (a, b) => Number(a.month) - Number(b.month)
   );
@@ -124,6 +128,7 @@ export default function MonthlyStackBarChart({ initData }: Props) {
           angle: 0,
           position: 'top',
           fontWeight: 700,
+          fontSize: isMobile ? '12px' : '16px',
         }}
       />
       <Tooltip content={CustomTooltip} />

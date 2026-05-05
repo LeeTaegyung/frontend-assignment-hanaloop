@@ -69,13 +69,21 @@ export default function YearlyPieChart({ yearlyEmissions }: Props) {
               textAnchor='middle'
               dominantBaseline='middle'
             >
-              <tspan x={width / 2} dy='-1.2em' className='text-lg font-medium'>
+              <tspan
+                x={width / 2}
+                dy='-1.2em'
+                className='text-sm font-medium lg:text-lg'
+              >
                 {yearlyEmissions.year}년
               </tspan>
               <tspan x={width / 2} dy='1.5em'>
                 누적 탄소 배출량
               </tspan>
-              <tspan x={width / 2} dy='1.5em' className='text-xl font-bold'>
+              <tspan
+                x={width / 2}
+                dy='1.5em'
+                className='text-base font-bold lg:text-xl'
+              >
                 {Math.round(yearlyEmissions.total * 100) / 100} {GHG_UNIT}
               </tspan>
             </text>

@@ -31,9 +31,9 @@ export default function PostDetailArea({ id }: Props) {
 
   return (
     <div className='mx-auto flex min-h-100 max-w-125 flex-col gap-2 rounded-xl border p-5'>
-      <div className='border-b pb-2 text-2xl'>{post.title}</div>
+      <div className='border-b pb-2 text-lg lg:text-2xl'>{post.title}</div>
 
-      <div className='text-muted-foreground flex items-center justify-between'>
+      <div className='text-muted-foreground flex items-center justify-between text-sm'>
         <div>{getCompanyById(post.resourceUid)?.name}</div>
         <div>{post.dateTime}</div>
       </div>
