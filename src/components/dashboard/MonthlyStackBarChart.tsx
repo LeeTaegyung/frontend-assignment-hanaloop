@@ -31,21 +31,25 @@ const CustomTooltip = ({ active, payload }: TooltipContentProps) => {
             Object.values(data.scopeData)
               .sort((a, b) => Number(a!.scope) - Number(b!.scope))
               .map((scopeData, i) => {
+                const scope = `scope${scopeData?.scope}`;
+                const value =
+                  scopeData !== null
+                    ? (Math.round(scopeData.value * 100) / 100).toLocaleString()
+                    : 0;
+                const unit = `${GHG_UNIT}/${scopeData.unit}`;
+
                 return (
-                  <p
-                    key={scopeData?.scope}
-                    className='flex items-center gap-1 text-sm'
-                    style={{
-                      color: payload[i].color,
-                    }}
-                  >
-                    <span
-                      className='mt-1 block h-2 w-2 rounded-full'
-                      style={{
-                        backgroundColor: payload[i].color,
-                      }}
-                    />
-                    {`scope${scopeData?.scope} : ${scopeData !== null ? (Math.round(scopeData.value * 100) / 100).toLocaleString() : 0} ${GHG_UNIT}/${scopeData.unit}`}
+                  <p key={scopeData?.scope} className='py-0.5'>
+                    <div className='flex items-center gap-1'>
+                      <span
+                        className='mt-1 block h-2 w-2 rounded-full'
+                        style={{
+                          backgroundColor: payload[i].color,
+                        }}
+                      />
+                      <span style={{ color: payload[i].color }}>{scope}</span>
+                    </div>
+                    {value} {unit}
                   </p>
                 );
               })}
