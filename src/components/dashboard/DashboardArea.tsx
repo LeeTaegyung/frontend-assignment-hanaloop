@@ -3,11 +3,13 @@
 import MonthlyStackBarChart from '@/components/dashboard/MonthlyStackBarChart';
 import YearlyPieChart from '@/components/dashboard/YearlyPieChart';
 import { useProcessEmissionData } from '@/hooks/useProcessEmissionData';
-import { Company } from '@/types';
+import { Company, Post } from '@/types';
+import Link from 'next/link';
 import { useMemo, useState } from 'react';
 
 interface Props {
   companies: Company[];
+  posts: Post[];
 }
 
 const getLatestYearMonth = (companies: Company[]) => {
@@ -27,7 +29,7 @@ const getLatestYearMonth = (companies: Company[]) => {
   return { year, month };
 };
 
-export default function DashboardArea({ companies }: Props) {
+export default function DashboardArea({ companies, posts }: Props) {
   // 초기 데이터 기준 최신년월 => 초기값으로 사용
   const [selectYear, setSelectYear] = useState(
     () => getLatestYearMonth(companies).year
@@ -52,53 +54,85 @@ export default function DashboardArea({ companies }: Props) {
 
   return (
     <div className='flex flex-col gap-5 p-5'>
-      <div className='flex items-center gap-5 border-b border-dashed pb-5'>
-        {/* 년도 필터링 */}
-        <div className='flex items-center gap-2'>
-          <span className='font-medium'>년도</span>
-          <select
-            value={selectYear}
-            onChange={(e) => setSelectYear(e.target.value)}
-            className='h-10 rounded-sm border px-5'
-          >
-            {selectYearList.map((year) => (
-              <option value={year} key={year}>
-                {year}
-              </option>
-            ))}
-          </select>
+      <div>
+        <h2 className='mb-5 text-2xl font-bold'>탄소 배출 현황</h2>
+        <div className='flex items-center gap-5 border-b border-dashed pb-5'>
+          {/* 년도 필터링 */}
+          <div className='flex items-center gap-2'>
+            <span className='font-medium'>년도</span>
+            <select
+              value={selectYear}
+              onChange={(e) => setSelectYear(e.target.value)}
+              className='h-10 rounded-sm border px-5'
+            >
+              {selectYearList.map((year) => (
+                <option value={year} key={year}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
+          {/* 회사 필터링 */}
+          <div className='flex items-center gap-2'>
+            <span className='font-medium'>회사</span>
+            <select
+              value={filterCompany}
+              onChange={(e) => setFilterCompany(e.target.value)}
+              className='h-10 rounded-sm border pr-3 pl-2'
+            >
+              <option value='all'>전체</option>
+              {companies.map((company) => (
+                <option value={company.id} key={company.id}>
+                  {company.name}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-        {/* 회사 필터링 */}
-        <div className='flex items-center gap-2'>
-          <span className='font-medium'>회사</span>
-          <select
-            value={filterCompany}
-            onChange={(e) => setFilterCompany(e.target.value)}
-            className='h-10 rounded-sm border pr-3 pl-2'
-          >
-            <option value='all'>전체</option>
-            {companies.map((company) => (
-              <option value={company.id} key={company.id}>
-                {company.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        {isEmpty ? (
+          <div className='flex flex-1 items-center justify-center py-20'>
+            데이터가 없습니다.
+          </div>
+        ) : (
+          <div className='flex gap-2'>
+            <div className='flex-1'>
+              <YearlyPieChart yearlyEmissions={yearlyEmissions} />
+            </div>
+            <div className='flex-2'>
+              <MonthlyStackBarChart initData={monthlyEmissions} />
+            </div>
+          </div>
+        )}
       </div>
-      {isEmpty ? (
-        <div className='flex flex-1 items-center justify-center py-20'>
-          데이터가 없습니다.
-        </div>
-      ) : (
-        <div className='flex gap-2'>
-          <div className='flex-1'>
-            <YearlyPieChart yearlyEmissions={yearlyEmissions} />
-          </div>
-          <div className='flex-2'>
-            <MonthlyStackBarChart initData={monthlyEmissions} />
-          </div>
-        </div>
-      )}
+      <hr />
+      <div>
+        <h2 className='mb-5 text-2xl font-bold'>최신 리포트</h2>
+        <ul>
+          {posts
+            .sort((a, b) => (a.dateTime > b.dateTime ? -1 : 1))
+            .slice(0, 5)
+            .map((post) => {
+              const company = companies.find(
+                (company) => company.id === post.resourceUid
+              )?.name;
+
+              return (
+                <li key={post.id} className='border-b last-of-type:border-b-0'>
+                  <Link
+                    href={`/post/${post.id}`}
+                    className='hover:bg-muted block px-1 py-2'
+                  >
+                    <p className='mb-0.5 text-lg'>{post.title}</p>
+                    <div className='text-muted-foreground flex gap-2 text-sm'>
+                      <span>{post.dateTime}</span>
+                      {!!company && <span>{company}</span>}
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+        </ul>
+      </div>
     </div>
   );
 }

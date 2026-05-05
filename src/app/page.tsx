@@ -1,8 +1,11 @@
 import DashboardArea from '@/components/dashboard/DashboardArea';
-import { fetchCompanies } from '@/lib/api';
+import { fetchCompanies, fetchPosts } from '@/lib/api';
 
 export default async function Home() {
-  const companies = await fetchCompanies();
+  const [companies, posts] = await Promise.all([
+    fetchCompanies(),
+    fetchPosts(),
+  ]);
 
-  return <DashboardArea companies={companies} />;
+  return <DashboardArea companies={companies} posts={posts} />;
 }
