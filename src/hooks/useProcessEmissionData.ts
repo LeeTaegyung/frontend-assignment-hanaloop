@@ -8,13 +8,10 @@ import { useMemo } from 'react';
 
 interface Props {
   emissions: GhgEmission[];
-  latestYearMonth: { year: string; month: string };
+  selectYear: string;
 }
 
-export const useProcessEmissionData = ({
-  emissions,
-  latestYearMonth,
-}: Props) => {
+export const useProcessEmissionData = ({ emissions, selectYear }: Props) => {
   return useMemo(() => {
     // 데이터 기준 최신 년의 월별 배출량(scope + 총합)
     const monthlyEmissions: MonthlyEmissionDataType = {};
@@ -28,7 +25,7 @@ export const useProcessEmissionData = ({
     }
 
     const yearlyEmissions: YearlyEmissionDataType = {
-      year: latestYearMonth.year,
+      year: selectYear,
       scopeData: null,
       total: 0,
     };
@@ -36,7 +33,7 @@ export const useProcessEmissionData = ({
     emissions.forEach((emission) => {
       // 년도 필터링
       const [targetYear, targetMonth] = emission.yearMonth.split('-');
-      if (targetYear !== latestYearMonth.year) return;
+      if (targetYear !== selectYear) return;
 
       // 활동 데이터 정보
       const [parentSource, childrenSource] = emission.source.split('-');
@@ -64,7 +61,7 @@ export const useProcessEmissionData = ({
     });
 
     return { monthlyEmissions, yearlyEmissions };
-  }, [emissions, latestYearMonth]);
+  }, [emissions, selectYear]);
 };
 
 // 월별 데이터 추가
