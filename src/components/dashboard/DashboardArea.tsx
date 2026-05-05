@@ -2,16 +2,15 @@
 
 import MonthlyStackBarChart from '@/components/dashboard/MonthlyStackBarChart';
 import YearlyPieChart from '@/components/dashboard/YearlyPieChart';
+import { usePostsStore } from '@/components/providers/PostsStoreProvider';
 import { useProcessEmissionData } from '@/hooks/useProcessEmissionData';
 import { useCompaniesStore } from '@/store/companiesStore';
-import { usePostsStore } from '@/store/postsStore';
-import { Company, Post } from '@/types';
+import { Company } from '@/types';
 import Link from 'next/link';
 import { useEffect, useMemo, useState } from 'react';
 
 interface Props {
   companies: Company[];
-  posts: Post[];
 }
 
 const getLatestYearMonth = (companies: Company[]) => {
@@ -31,9 +30,10 @@ const getLatestYearMonth = (companies: Company[]) => {
   return { year, month };
 };
 
-export default function DashboardArea({ companies, posts }: Props) {
+export default function DashboardArea({ companies }: Props) {
   const setCompanies = useCompaniesStore((stroe) => stroe.setCompanies);
-  const setPosts = usePostsStore((stroe) => stroe.setPosts);
+  const posts = usePostsStore((state) => state.posts);
+
   // 초기 데이터 기준 최신년월 => 초기값으로 사용
   const [selectYear, setSelectYear] = useState(
     () => getLatestYearMonth(companies).year
@@ -59,8 +59,7 @@ export default function DashboardArea({ companies, posts }: Props) {
   useEffect(() => {
     // 다른 컴포넌트에서 회사정보/포스트정보를 꺼내오기 위해 zustand set
     setCompanies(companies);
-    setPosts(posts);
-  }, [companies, setCompanies, posts, setPosts]);
+  }, [companies, setCompanies]);
 
   return (
     <div className='flex flex-col gap-5'>
