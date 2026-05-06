@@ -93,3 +93,10 @@ yarn start
   - 목데이터 가공 로직 코드 리뷰
   - Zustand Context 패턴 적용 방법
   - NextJS 환경에서 페이지 이동시 zustand의 상태 유지 불가능에 관한 이슈 해결
+
+## 스크린샷
+<img width="1920" height="1097" alt="image" src="https://github.com/user-attachments/assets/68c97b4b-e50b-4e17-b023-12b2960cdd4a" />
+
+## 동영상
+https://github.com/user-attachments/assets/406542a5-e747-4b01-b469-bb84b745d510
+
